@@ -1,0 +1,50 @@
+.photoCard {
+    max-width: 300px;
+    border-radius: 5px;
+}
+
+.galleryImage {
+    height: 100%;
+    width: 100%;
+    padding: 2px;
+    background-color: black;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    object-fit: cover;
+    transition: transform 500ms ease-in-out;
+}
+
+.galleryImage:hover {
+    transform: scale(1.01);
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+    cursor: zoom-in;
+}
+
+.info {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 3px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    background-color: #c2b4a3;
+
+}
+
+.infoItem {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    letter-spacing: 0.08em;
+}
+
+.infoItem>b {
+    font-size: 15px;
+    letter-spacing: 0.04em;
+}
+
+.infoItem>span {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 600;
+}

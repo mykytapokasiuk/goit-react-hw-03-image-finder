@@ -1,0 +1,20 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.container {
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 70px;
+    row-gap: 70px;
+    column-gap: 20px;
+    justify-content: center;
+}
