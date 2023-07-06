@@ -17,11 +17,11 @@ const Searchbar = ({ onSubmit }) => {
             type="text"
             name="searchQuery"
             autoComplete="off"
-            placeholder="Search images and photos"
+            placeholder="Search images and photos..."
             className={css.input}
           />
           <button type="submit" className={css.button}>
-            Search
+            Go
           </button>
         </form>
       </div>

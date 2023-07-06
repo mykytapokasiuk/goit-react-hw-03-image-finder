@@ -35,16 +35,19 @@
     display: flex;
     text-align: center;
     flex-direction: column;
-    letter-spacing: 0.08em;
+    gap: 3px;
 }
 
 .infoItem>b {
     font-size: 15px;
     letter-spacing: 0.04em;
+    text-shadow: 1px 1px 4px #000000;
 }
 
 .infoItem>span {
     font-size: 14px;
     color: #ffffff;
     font-weight: 600;
+    letter-spacing: 0.08em;
+    text-shadow: 1px 1px 3px #000000;
 }

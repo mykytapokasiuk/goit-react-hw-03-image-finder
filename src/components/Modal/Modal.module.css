@@ -23,17 +23,17 @@
     position: fixed;
     height: 25px;
     width: 25px;
-    top: 40px;
+    top: 60px;
     right: 50px;
     margin-top: -14px;
     margin-right: -14px;
     color: #ffffff;
     background-color: transparent;
     border: none;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 600;
     cursor: pointer;
-
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.75);
 }
 
 .largeImage {
