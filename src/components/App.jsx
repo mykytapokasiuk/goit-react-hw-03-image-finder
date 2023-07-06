@@ -20,6 +20,37 @@ export default class App extends Component {
     error: null,
     searchQuery: 'milky way',
     page: 1,
+    totalImages: 0,
+  };
+
+  async componentDidMount() {
+    this.fetchImages();
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.searchQuery !== this.state.searchQuery ||
+      prevState.page !== this.state.page
+    ) {
+      this.fetchImages();
+    }
+  }
+  fetchImages = async () => {
+    const { searchQuery, page } = this.state;
+    try {
+      this.setState({ isLoading: true });
+      const response = await getImages(searchQuery, page);
+      checkResponse(response, page);
+      this.setState(prevState => ({
+        images: [...prevState.images, ...response.hits],
+        totalImages: response.totalHits,
+      }));
+    } catch (error) {
+      this.setState({ error: error.message });
+      onError(this.state.error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   onOpenModal = data => {
@@ -37,69 +68,32 @@ export default class App extends Component {
     });
   };
 
-  onSubmit = event => {
-    event.preventDefault();
-    const form_element = event.currentTarget;
-    const searchQuery = form_element.elements.searchQuery.value.trim();
-    if (searchQuery === '') {
+  onSubmit = (searchQuery, form) => {
+    if (!searchQuery) {
       onInputEmpty();
-    } else if (searchQuery === this.state.searchQuery) {
-      onSameRequest(this.state.searchQuery);
-      form_element.reset();
-    } else {
-      this.setState({
-        searchQuery: searchQuery,
-        images: [],
-      });
-      this.setState({ page: 1 });
-      form_element.reset();
+      return;
     }
+    if (searchQuery === this.state.searchQuery) {
+      onSameRequest(this.state.searchQuery);
+      form.reset();
+      return;
+    }
+    this.setState({
+      searchQuery: searchQuery,
+      images: [],
+      page: 1,
+      totalImages: 0,
+    });
+    form.reset();
   };
 
   onLoadMore = () => {
-    this.setState({ page: this.state.page + 1 });
+    this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
-  async componentDidMount() {
-    const { searchQuery, page } = this.state;
-    try {
-      this.setState({ isLoading: true });
-      const response = await getImages(searchQuery, page);
-      this.setState({
-        images: response.hits,
-      });
-    } catch (error) {
-      this.setState({ error: error.message });
-      onError(this.state.error);
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  }
-
-  async componentDidUpdate(prevProps, prevState) {
-    const { searchQuery, page } = this.state;
-    if (
-      prevState.searchQuery !== this.state.searchQuery ||
-      prevState.page !== this.state.page
-    ) {
-      try {
-        this.setState({ isLoading: true });
-        const response = await getImages(searchQuery, page);
-        checkResponse(response, page);
-        this.setState({
-          images: [...this.state.images, ...response.hits],
-        });
-      } catch (error) {
-        this.setState({ error: error.message });
-        onError(this.state.error);
-      } finally {
-        this.setState({ isLoading: false });
-      }
-    }
-  }
-
   render() {
-    const { isLoading, images, modal } = this.state;
+    const { isLoading, images, modal, totalImages } = this.state;
+    const showButton = !isLoading && totalImages !== images.length;
     return (
       <div>
         {isLoading && <Loader />}
@@ -107,8 +101,8 @@ export default class App extends Component {
         {images.length > 0 ? (
           <ImageGallery imagesArray={images} onOpenModal={this.onOpenModal} />
         ) : null}
-        {images.length > 0 ? <Button onLoadMore={this.onLoadMore} /> : null}
-        {this.state.modal.isOpen && (
+        {showButton ? <Button onLoadMore={this.onLoadMore} /> : null}
+        {modal.isOpen && (
           <Modal
             visibleData={modal.visibleData}
             onCloseModal={this.onCloseModal}
