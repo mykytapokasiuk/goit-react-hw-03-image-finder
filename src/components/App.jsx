@@ -17,7 +17,6 @@ export default class App extends Component {
     modal: { isOpen: false, visibleData: null },
     images: [],
     isLoading: false,
-    error: null,
     searchQuery: 'milky way',
     page: 1,
     totalImages: 0,
@@ -46,8 +45,7 @@ export default class App extends Component {
         totalImages: response.totalHits,
       }));
     } catch (error) {
-      this.setState({ error: error.message });
-      onError(this.state.error);
+      onError(error.message);
     } finally {
       this.setState({ isLoading: false });
     }
