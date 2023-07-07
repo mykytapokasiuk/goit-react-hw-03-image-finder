@@ -20,6 +20,10 @@
     box-shadow: 5px 5px 5px 0px #000000;
 }
 
+.hidden {
+    display: none;
+}
+
 @media screen and (min-width: 320px) {
     .modal {
         width: 320px;
